@@ -6,8 +6,8 @@ var canvas = document.getElementById("canvas-id");
 var context = canvas.getContext("2d");
 
 // Get the current width and height
-var canvasWidth = canvas.width;
-var canvasHeight = canvas.height;
+var canvasWidth = window.innerWidth;
+var canvasHeight = window.innerHeight;
 
 console.log("Canvas Width:", canvasWidth);
 console.log("Canvas Height:", canvasHeight);
@@ -38,7 +38,7 @@ class Dot{
 }
 
 //var dot1 = new Dot(100, 100)
-var dots = [], num = 150
+var dots = [], num = 100
 let maxDistance = 200; // Change this value to adjust connection range
 
 function addDots(arr, num){
