@@ -29,10 +29,11 @@ class Dot{
 //var dot1 = new Dot(100, 100)
 var dots = [], num = 100
 let maxDistance = 200; // Change this value to adjust connection range
+let borderX = 1500, borderY = 700
 
 function addDots(arr, num){
     for(let i = 0; i < num; i ++){
-        arr.push(new Dot(Math.random()*800, Math.random()*600))
+        arr.push(new Dot(Math.random()*borderX, Math.random()*borderY))
     }
 }
 addDots(dots, num)
@@ -42,6 +43,10 @@ function update() {
 
     for(let i = 0; i < num; i ++){
         dots[i].move()
+        if(dots[i].x > borderX ||dots[i].x < 0 || dots[i].y > borderY ||dots[i].y < 0){
+            dots[i].x = Math.random()*borderX
+            dots[i].y = Math.random()*borderY
+        }
     }
 }
 
