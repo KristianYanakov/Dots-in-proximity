@@ -2,6 +2,16 @@
 var myX = 0, myY = 0;
 endlessCanvas = true;
 document.getElementById("canvas-id").style.backgroundColor = "black";
+var canvas = document.getElementById("canvas-id");
+var context = canvas.getContext("2d");
+
+// Get the current width and height
+var canvasWidth = canvas.width;
+var canvasHeight = canvas.height;
+
+console.log("Canvas Width:", canvasWidth);
+console.log("Canvas Height:", canvasHeight);
+
 function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
 }
@@ -10,9 +20,10 @@ class Dot{
     constructor(x, y){
         this.x = x
         this.y = y
-        this.rad = 5
+        this.rad = 1
         this.speedx = getRandomArbitrary(-1, 1)
         this.speedy = getRandomArbitrary(-1, 1)
+        this.color = `rgb(${Math.floor(Math.random()*255)}, ${Math.floor(Math.random()*255)}, ${Math.floor(Math.random()*255)})`;
     }
     draw(){
         context.fillStyle = 'gray'
@@ -27,13 +38,12 @@ class Dot{
 }
 
 //var dot1 = new Dot(100, 100)
-var dots = [], num = 100
+var dots = [], num = 150
 let maxDistance = 200; // Change this value to adjust connection range
-let borderX = 1500, borderY = 700
 
 function addDots(arr, num){
     for(let i = 0; i < num; i ++){
-        arr.push(new Dot(Math.random()*borderX, Math.random()*borderY))
+        arr.push(new Dot(Math.random()*canvasWidth, Math.random()*canvasHeight))
     }
 }
 addDots(dots, num)
@@ -43,9 +53,9 @@ function update() {
 
     for(let i = 0; i < num; i ++){
         dots[i].move()
-        if(dots[i].x > borderX ||dots[i].x < 0 || dots[i].y > borderY ||dots[i].y < 0){
-            dots[i].x = Math.random()*borderX
-            dots[i].y = Math.random()*borderY
+        if(dots[i].x > canvasWidth ||dots[i].x < 0 || dots[i].y > canvasHeight ||dots[i].y < 0){
+            dots[i].x = Math.random()*canvasWidth
+            dots[i].y = Math.random()*canvasHeight
         }
     }
 }
@@ -95,17 +105,35 @@ function draw() {
         }
     }*/
 
-    for(let i = 0; i < num; i++){
+    /*for(let i = 0; i < num; i++){
         for(let j = i + 1; j < num; j++){ // Avoid duplicate calculations
             let dx = dots[i].x - dots[j].x;
             let dy = dots[i].y - dots[j].y;
             let distance = Math.sqrt(dx * dx + dy * dy);
-            
+            //Change the colors at every 10ms
             if(distance < maxDistance) { // Only connect close dots
                 context.beginPath();
                 context.moveTo(dots[i].x, dots[i].y);
                 context.lineTo(dots[j].x, dots[j].y);
                 context.strokeStyle = `rgba(${Math.floor(Math.random()*255)}, ${Math.floor(Math.random()*255)}, ${Math.floor(Math.random()*255)}, ${1 - (distance / maxDistance)})`; // Fades as distance increases
+                context.lineWidth = 1;
+                context.stroke();
+            }
+        }
+    }*/
+
+    for(let i = 0; i < num; i++){
+        for(let j = i + 1; j < num; j++){ // Avoid duplicate calculations
+            let dx = dots[i].x - dots[j].x;
+            let dy = dots[i].y - dots[j].y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+            //Fixed colors
+            if(distance < maxDistance) { // Only connect close dots
+                context.beginPath();
+                context.moveTo(dots[i].x, dots[i].y);
+                context.lineTo(dots[j].x, dots[j].y);
+                context.strokeStyle = dots[i].color
+                context.globalAlpha = 1 - (distance / maxDistance);//can remove fading effect for a more vibrant look
                 context.lineWidth = 1;
                 context.stroke();
             }
