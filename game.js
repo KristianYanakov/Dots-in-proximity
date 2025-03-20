@@ -1,7 +1,7 @@
 ﻿// Creating variables
 var myX = 0, myY = 0;
 endlessCanvas = true;
-
+document.getElementById("canvas-id").style.backgroundColor = "black";
 function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
 }
@@ -77,7 +77,7 @@ function draw() {
     }*/
 
         
-
+    /*
     for(let i = 0; i < num; i++){
         for(let j = i + 1; j < num; j++){ // Avoid duplicate calculations
             let dx = dots[i].x - dots[j].x;
@@ -90,6 +90,23 @@ function draw() {
                 context.lineTo(dots[j].x, dots[j].y);
                 context.strokeStyle = `rgba(0, 0, 0, ${1 - (distance / maxDistance)})`; // Fades as distance increases
                 //context.lineWidth = 1;
+                context.stroke();
+            }
+        }
+    }*/
+
+    for(let i = 0; i < num; i++){
+        for(let j = i + 1; j < num; j++){ // Avoid duplicate calculations
+            let dx = dots[i].x - dots[j].x;
+            let dy = dots[i].y - dots[j].y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if(distance < maxDistance) { // Only connect close dots
+                context.beginPath();
+                context.moveTo(dots[i].x, dots[i].y);
+                context.lineTo(dots[j].x, dots[j].y);
+                context.strokeStyle = `rgba(${Math.floor(Math.random()*255)}, ${Math.floor(Math.random()*255)}, ${Math.floor(Math.random()*255)}, ${1 - (distance / maxDistance)})`; // Fades as distance increases
+                context.lineWidth = 1;
                 context.stroke();
             }
         }
