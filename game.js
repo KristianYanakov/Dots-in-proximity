@@ -140,6 +140,25 @@ function draw() {
         }
     }
 
+    //Added mouse responsive
+    for(let i = 0; i < num; i++){
+        // Avoid duplicate calculations
+        let dx = dots[i].x - mouseX;
+        let dy = dots[i].y - mouseY;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        //Fixed colors
+        if(distance < maxDistance) { // Only connect close dots
+            context.beginPath();
+            context.moveTo(dots[i].x, dots[i].y);
+            context.lineTo(mouseX, mouseY);
+            context.strokeStyle = dots[i].color
+            context.globalAlpha = 1 - (distance / maxDistance);//can remove fading effect for a more vibrant look
+            context.lineWidth = 1;
+            context.stroke();
+        }
+        
+    }
+
 };
 
 function keyup(key) {
